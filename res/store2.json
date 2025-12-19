@@ -1,0 +1,35 @@
+{
+    "StoreName": "Pizza Heaven",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "FoodCategory": "Pizza",
+    "Stars": 4.5,
+    "NoOfVotes": 124,
+    "StoreLogo": "pizzaheaven_logo.jpg",
+    "Products": [
+        {
+            "ProductName": "Margherita Pizza",
+            "ProductType": "Food",
+            "Available Amount": 18,
+            "Price": 12.99
+        },
+        {
+            "ProductName": "Pepperoni Pizza",
+            "ProductType": "Food",
+            "Available Amount": 15,
+            "Price": 14.50
+        },
+        {
+            "ProductName": "Garlic Bread",
+            "ProductType": "Side",
+            "Available Amount": 30,
+            "Price": 4.75
+        },
+        {
+            "ProductName": "Cola",
+            "ProductType": "Drink",
+            "Available Amount": 40,
+            "Price": 2.50
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "StoreName": "Aest Store",
+    "Latitude": 37.9932963,
+    "Longitude": 23.733413,
+    "FoodCategory": "Fast Food",
+    "Stars": 3,
+    "NoOfVotes": 15,
+    "StoreLogo": "generic.jpg",
+    "Products": [
+        {
+            "ProductName": "Burger",
+            "ProductType": "Food",
+            "Available Amount": 10,
+            "Price": 5.5
+        },
+        {
+            "ProductName": "Fries",
+            "ProductType": "Food",
+            "Available Amount": 20,
+            "Price": 3.0
+        }
+    ]
+}

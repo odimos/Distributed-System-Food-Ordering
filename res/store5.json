@@ -1,0 +1,47 @@
+{
+    "StoreName": "Coffee Hub",
+    "Latitude": 51.5074,
+    "Longitude": -0.1278,
+    "FoodCategory": "Cafe",
+    "Stars": 4.6,
+    "NoOfVotes": 178,
+    "StoreLogo": "generic.jpg",
+    "Products": [
+        {
+            "ProductName": "Cappuccino",
+            "ProductType": "Drink",
+            "Available Amount": 35,
+            "Price": 4.50
+        },
+        {
+            "ProductName": "Espresso",
+            "ProductType": "Drink",
+            "Available Amount": 40,
+            "Price": 3.25
+        },
+        {
+            "ProductName": "Chocolate Croissant",
+            "ProductType": "Food",
+            "Available Amount": 15,
+            "Price": 3.75
+        },
+        {
+            "ProductName": "Blueberry Muffin",
+            "ProductType": "Food",
+            "Available Amount": 12,
+            "Price": 3.50
+        },
+        {
+            "ProductName": "Avocado Toast",
+            "ProductType": "Food",
+            "Available Amount": 10,
+            "Price": 8.99
+        },
+        {
+            "ProductName": "Fruit Smoothie",
+            "ProductType": "Drink",
+            "Available Amount": 18,
+            "Price": 5.75
+        }
+    ]
+}

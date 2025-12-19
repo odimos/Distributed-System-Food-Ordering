@@ -1,0 +1,41 @@
+{
+    "StoreName": "Sushi Spot",
+    "Latitude": 35.6762,
+    "Longitude": 139.6503,
+    "FoodCategory": "Japanese",
+    "Stars": 4.8,
+    "NoOfVotes": 203,
+    "StoreLogo": "sushi.jpg",
+    "Products": [
+        {
+            "ProductName": "California Roll",
+            "ProductType": "Food",
+            "Available Amount": 22,
+            "Price": 8.75
+        },
+        {
+            "ProductName": "Salmon Nigiri",
+            "ProductType": "Food",
+            "Available Amount": 18,
+            "Price": 9.99
+        },
+        {
+            "ProductName": "Miso Soup",
+            "ProductType": "Side",
+            "Available Amount": 25,
+            "Price": 3.25
+        },
+        {
+            "ProductName": "Green Tea",
+            "ProductType": "Drink",
+            "Available Amount": 30,
+            "Price": 2.00
+        },
+        {
+            "ProductName": "Tempura",
+            "ProductType": "Side",
+            "Available Amount": 12,
+            "Price": 7.50
+        }
+    ]
+}

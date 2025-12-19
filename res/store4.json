@@ -1,0 +1,41 @@
+{
+    "StoreName": "Taco Fiesta",
+    "Latitude": 19.4326,
+    "Longitude": -99.1332,
+    "FoodCategory": "Mexican",
+    "Stars": 4.2,
+    "NoOfVotes": 156,
+    "StoreLogo": "taco.jpg",
+    "Products": [
+        {
+            "ProductName": "Beef Taco",
+            "ProductType": "Food",
+            "Available Amount": 25,
+            "Price": 3.99
+        },
+        {
+            "ProductName": "Chicken Burrito",
+            "ProductType": "Food",
+            "Available Amount": 18,
+            "Price": 8.50
+        },
+        {
+            "ProductName": "Guacamole",
+            "ProductType": "Side",
+            "Available Amount": 15,
+            "Price": 4.25
+        },
+        {
+            "ProductName": "Nachos",
+            "ProductType": "Side",
+            "Available Amount": 20,
+            "Price": 6.75
+        },
+        {
+            "ProductName": "Horchata",
+            "ProductType": "Drink",
+            "Available Amount": 22,
+            "Price": 3.25
+        }
+    ]
+}

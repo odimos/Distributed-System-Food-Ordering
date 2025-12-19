@@ -1,0 +1,35 @@
+{
+    "StoreName": "Burger Palace",
+    "Latitude": 37.7749,
+    "Longitude": -122.4194,
+    "FoodCategory": "Burger",
+    "Stars": 2.5,
+    "NoOfVotes": 87,
+    "StoreLogo": "burgerpalace_logo.jpg",
+    "Products": [
+        {
+            "ProductName": "Double Cheeseburger",
+            "ProductType": "Food",
+            "Available Amount": 15,
+            "Price": 27.99
+        },
+        {
+            "ProductName": "Crispy Fries",
+            "ProductType": "Food",
+            "Available Amount": 25,
+            "Price": 23.49
+        },
+        {
+            "ProductName": "Chocolate Milkshake",
+            "ProductType": "Drink",
+            "Available Amount": 0,
+            "Price": 24.25
+        },
+        {
+            "ProductName": "Cola",
+            "ProductType": "Drink",
+            "Available Amount": 10,
+            "Price": 2.00
+        }
+    ]
+}
