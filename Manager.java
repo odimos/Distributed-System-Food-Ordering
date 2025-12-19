@@ -22,7 +22,32 @@ public class Manager implements ResponseHandler {
        .start();
     }
 
-    
+    private void loadStoresFromJSONFiles() {
+        String[] jsonFiles = {
+            "res/store1.json",
+            "res/store2.json",
+            "res/store3.json",
+            "res/store4.json",
+            "res/store5.json"
+        };
+
+        for (String jsonFile : jsonFiles) {
+            try {
+                String json = StoreParser.jsonFileToString(jsonFile);
+                Store store = StoreParser.createStoreFromJSONString(json);
+                this.sendToMaster(
+                    new Task(0, GlobalConfig.ADD_STORE, true, 
+                    Map.of(
+                        "store", store,
+                        "storeName", store.getStoreName()
+                        ) 
+                    )
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public static void test(Manager manager) throws Exception{
         String json = StoreParser.jsonFileToString("res/store1.json");
@@ -39,6 +64,7 @@ public class Manager implements ResponseHandler {
         Store store5 = StoreParser.createStoreFromJSONString(json5);
         // manager.sendToMaster(new Task(0, GlobalConfig.ADD_STORE, true, Map.of("json", json) ));
         // manager.sendToMaster(new Task(0, GlobalConfig.ADD_STORE, true, Map.of("json", json2)));
+        Thread.sleep(1000);
 
         manager.sendToMaster(
             new Task(0, GlobalConfig.ADD_STORE, true, 
