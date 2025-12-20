@@ -111,14 +111,14 @@ public class Store implements Serializable {
         if ( availableAmount < quantity ) return "Not enough stock";
         product.purchase(quantity);
         sales.add(new Sale(foodCategory, product.getProductType(), quantity, this.storeName, product.getProductName()));
-        System.out.println( "after bought sales: "+sales);
+        //System.out.println( "after bought sales: "+sales);
         return "Bought " +quantity+ " "+ product.getProductName()+" from "+ this.storeName + " Successfully";
     }
 
     public synchronized String buy(String productName, int quantity){
         Product product = getProduct(productName);
         if (product==null) return "Product not Found";
-        System.out.println("buying product: "+product);
+        //System.out.println("buying product: "+product);
         return buyProduct(product, quantity);
     }
 

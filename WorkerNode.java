@@ -263,8 +263,10 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
     // For Master
     @Override
     public Answer handleRequestFromClient(Task req) {
-        System.out.println("Worker: " + id + " Received Request from Master "+req.type);
+        System.out.println("Worker: " + id + " Received " + GlobalConfig.getCommandName(req.type) + " request, with id:"+req.ID+", from Master");
         if (! req.imediateAnswer){
+            Task taskToSend = null;
+
             switch (req.type) {
                 case GlobalConfig.FILTER_STORES:
                 List<Store> storesList =  filter(
@@ -275,18 +277,12 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
                     (double) req.arguments.get("longitude")
                 );
 
-                Task task = new Task(req.clientTaskID, req.type, false, 
+                taskToSend = new Task(req.clientTaskID, req.type, false, 
                 Map.of(
                     "result", (Serializable) storesList
                 )
                 , req.ID);
-                (new Client<WorkerNode>(task, GlobalConfig.REDUCER_HOST_IP, GlobalConfig.REDUCER_PORT_WORKER_AS_CLIENT, this))
-                .start();
-
-                return new Answer(
-                new Task(req.clientTaskID, req.type, false, null, req.ID),
-                 ""
-                 );
+                break;
 
                 case GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY:
                     List<Sale> salesList = getSalesPerProductCategory(
@@ -295,19 +291,12 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
 
                     List<Pair<String, Integer>> sortedList = sortSales(salesList);
 
-                    Task task2 = new Task(req.clientTaskID, req.type, false, 
+                    taskToSend = new Task(req.clientTaskID, req.type, false, 
                     Map.of(
                         "result", (Serializable) sortedList
                     )
                     , req.ID);
-                    System.out.println("Sending to reducer: "+task2);
-                    (new Client<WorkerNode>(task2, GlobalConfig.REDUCER_HOST_IP, GlobalConfig.REDUCER_PORT_WORKER_AS_CLIENT, this))
-                    .start();
-
-                    return new Answer(
-                    new Task(req.clientTaskID, req.type, false, null, req.ID),
-                    ""
-                    );
+                    break;
                 
                 case GlobalConfig.GET_SALES_PER_FOOD_CATEGORY:
                     List<Sale> salesList2 = getSalesPerFoodCategory(
@@ -316,42 +305,37 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
 
                     List<Pair<String, Integer>> sortedList2 = sortSales(salesList2);
 
-                    Task task3 = new Task(req.clientTaskID, req.type, false, 
+                    taskToSend = new Task(req.clientTaskID, req.type, false, 
                     Map.of(
                         "result", (Serializable) sortedList2
                     )
                     , req.ID);
-                    System.out.println("Sending to reducer: "+task3);
-                    (new Client<WorkerNode>(task3, GlobalConfig.REDUCER_HOST_IP, GlobalConfig.REDUCER_PORT_WORKER_AS_CLIENT, this))
-                    .start();
-
-                    return new Answer(
-                    new Task(req.clientTaskID, req.type, false, null, req.ID),
-                    ""
-                    );
+                    break;
                 
                 case GlobalConfig.GET_SALES_PER_PRODUCT:
                     List<Sale> salesList3 = getSales();
                     System.out.println("Sales List: "+salesList3);
                     List<Pair<String, Integer>> sortedList3 = sortSalesPerProduct(salesList3);
 
-                    Task task4 = new Task(req.clientTaskID, req.type, false, 
+                    taskToSend = new Task(req.clientTaskID, req.type, false, 
                     Map.of(
                         "result", (Serializable) sortedList3
                     )
                     , req.ID);
-                    System.out.println("Sending to reducer: "+task4);
-                    (new Client<WorkerNode>(task4, GlobalConfig.REDUCER_HOST_IP, GlobalConfig.REDUCER_PORT_WORKER_AS_CLIENT, this))
-                    .start();
-
-                    return new Answer(
-                    new Task(req.clientTaskID, req.type, false, null, req.ID),
-                    ""
-                    );
+                    break;
                 default:
                     return new Answer(req,"default answer");
                 
-            }     
+            }   
+            
+            System.out.println("Sending to reducer: "+taskToSend);
+            (new Client<WorkerNode>(taskToSend, GlobalConfig.REDUCER_HOST_IP, GlobalConfig.REDUCER_PORT_WORKER_AS_CLIENT, this))
+            .start();
+
+            return new Answer(
+                new Task(req.clientTaskID, req.type, false, null, req.ID),
+            ""
+            );
         }
         
         switch (req.type) {
@@ -420,9 +404,8 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
     }
 
     public void createServer(){
-        System.out.println("Worker Node "+ this.id + " starting server... " + (GlobalConfig.INITIAL_PORT_FOR_WORKERS+this.id));
         new Server<WorkerNode>()
-        .openServer(this, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+this.id) );
+        .openServer(this, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+this.id), ("WorkerNode "+this.id));
     }
 
     public static void main(String[] args) throws Exception {
@@ -445,7 +428,6 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
         // }    
         int worketID = Integer.parseInt(args[0]);
        WorkerNode node = new WorkerNode(worketID);
-       System.out.println("Worker: " + worketID + " starting");
        node.createServer();
     }
     

@@ -59,7 +59,7 @@ public class Master implements RequestHandler, ResponseHandler {
     @Override
     public Answer handleRequestFromClient(Task req) {
         System.out.println("Master: Received Request "+ GlobalConfig.getCommandName(req.type) +" from Pelati");
-        
+    
         int taskID = nextID();
         Pending pending = new Pending();
         addPending(taskID, pending);
@@ -68,27 +68,25 @@ public class Master implements RequestHandler, ResponseHandler {
 
         if (! req.imediateAnswer){
             // send to all
+            System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type)+" request, id:"+taskID+", to ALL workers");
             for (int i = 0; i < GlobalConfig.WORKERS_NUMBER; i++) {
-                System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type) +" to ALL");
                 sendToWorker(req, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+i));
             }
 
         } else {
             // send to one 
             int port = selectWorkerPort((String) req.arguments.get("storeName"));
-            System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type) + " to "+port);
+            System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type) + " request, id:"+taskID+", to worker "+port);
             sendToWorker(req, port);
         }
         // Decide where to send the request
         
         Answer answer = pending.waitForAnswer();
-        
-        //System.out.println("Master: Sending Response to Pelatis"+answer);
+        System.out.println("Master: Sending Response to Pelatis for "  +GlobalConfig.getCommandName(req.type)+" request, with id:"+taskID);
         return answer;
     }
 
     public void sendToWorker(Task task, int port) {
-        System.out.println("SendToWorker "+port);
         (new Client<Master>(task, GlobalConfig.WORKERNODE_HOST_IP, port, this))
        .start();
     }

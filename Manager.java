@@ -14,7 +14,9 @@ public class Manager implements ResponseHandler {
     @Override
     public void handleResponseFromServer(Answer res) {
         // TODO Auto-generated method stub
-        System.out.println("Response from Master: "+res);
+        System.out.println("Response from Master: "+
+            GlobalConfig.getCommandName(res.type)+", id:"+ res.ID+"\n" + res.message+"\n"+res.arguments
+        );
     }
 
     public void sendToMaster(Task task)  {
@@ -61,6 +63,32 @@ public class Manager implements ResponseHandler {
 
         System.out.println("-------------------------------\n\n");
 
+        applyTasks(new Task[] {
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Burger Palace",
+                //         "productName", "Double Cheeseburger",
+                //         "quantity", 2
+                //     )
+                // ),
+                new Task(7, GlobalConfig.BUY, true,
+                    Map.of(
+                        "storeName", "Burger Palace",
+                        "productName", "Double Cheeseburger",
+                        "quantity", 2
+                    )
+                ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Sushi Spot",
+                //         "productName", "Salmon Nigiri",
+                //         "quantity", 10
+                //     )
+                // ),
+        });
+
+        Thread.sleep(1000); // Wait for purchases to be processed
+
          applyTasks(new Task[] {
             // new Task(0, GlobalConfig.CHANGE_STOCK, true,
             //         Map.of(
@@ -69,39 +97,19 @@ public class Manager implements ResponseHandler {
             //             "quantity", -3
             //         )
             //     ),
-                // new Task(5, GlobalConfig.REMOVE_PRODUCT, true,
-                //     Map.of(
-                //         "storeName", "Coffee Hub",
-                //         "productName", "Blueberry Muffin"
-                //     )
-                // ),
-                // new Task(6, GlobalConfig.ADD_PRODUCT, true,
-                //     Map.of(
-                //         "storeName", "Burger Palace",
-                //         "product", new Product("Dedicon", "Food", 10, 7.5)
-                //     )
-                // ),
-                // new Task(7, GlobalConfig.BUY, true,
-                //     Map.of(
-                //         "storeName", "Burger Palace",
-                //         "productName", "Double Cheeseburger",
-                //         "quantity", 2
-                //     )
-                // ),
-                // new Task(7, GlobalConfig.BUY, true,
-                //     Map.of(
-                //         "storeName", "Burger Palace",
-                //         "productName", "Double Cheeseburger",
-                //         "quantity", 2
-                //     )
-                // ),
-                // new Task(7, GlobalConfig.BUY, true,
-                //     Map.of(
-                //         "storeName", "Sushi Spot",
-                //         "productName", "Salmon Nigiri",
-                //         "quantity", 10
-                //     )
-                // ),
+            //     new Task(5, GlobalConfig.REMOVE_PRODUCT, true,
+            //         Map.of(
+            //             "storeName", "Coffee Hub",
+            //             "productName", "Blueberry Muffin"
+            //         )
+            //     ),
+            //     new Task(6, GlobalConfig.ADD_PRODUCT, true,
+            //         Map.of(
+            //             "storeName", "Burger Palace",
+            //             "product", new Product("Dedicon", "Food", 10, 7.5)
+            //         )
+            //     ),
+
                 // new Task(0, GlobalConfig.FILTER_STORES, false,
                 //     Map.of(
                 //         "category", "",
@@ -111,7 +119,7 @@ public class Manager implements ResponseHandler {
                 //         "longitude", 0.0
                 //     )
                 // ),
-                // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
+                new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
                 // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY, false,
                 //     Map.of("category", "Food")
                 // ),

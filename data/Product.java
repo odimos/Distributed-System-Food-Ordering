@@ -80,9 +80,9 @@ public class Product implements Serializable {
         this.availableAmount += quantity;
         if (this.availableAmount < 0) {
             this.availableAmount = 0;
-            return "" + oldAmount + ", to " + this.availableAmount;
+            return "" + oldAmount + " to " + this.availableAmount;
         }
-        return "" + oldAmount + ", to " + this.availableAmount;
+        return "" + oldAmount + " to " + this.availableAmount;
     }
 }
 
