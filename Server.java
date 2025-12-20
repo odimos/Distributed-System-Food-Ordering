@@ -7,9 +7,14 @@ public class Server<M extends RequestHandler > {
 	Socket connection = null;
 	
 	void openServer(M manager, int port) {
+		openServer(manager, port, "Server");
+	}
+
+
+	void openServer(M manager, int port, String serverName) {
 		try {
 			providerSocket = new ServerSocket(port, 20);
-			System.out.println("Server Waiting for clients on port: "+port);
+			System.out.println(serverName + " Waiting for clients on port: "+port);
 			while (true) {
 				connection = providerSocket.accept();
 

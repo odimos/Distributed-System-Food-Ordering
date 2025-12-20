@@ -22,16 +22,8 @@ public class Manager implements ResponseHandler {
        .start();
     }
 
-    private void loadStoresFromJSONFiles() {
-        String[] jsonFiles = {
-            "res/store1.json",
-            "res/store2.json",
-            "res/store3.json",
-            "res/store4.json",
-            "res/store5.json"
-        };
-
-        for (String jsonFile : jsonFiles) {
+    private void loadStoresFromJSONFiles(String[] jsonFileNames) {
+        for (String jsonFile : jsonFileNames) {
             try {
                 String json = StoreParser.jsonFileToString(jsonFile);
                 Store store = StoreParser.createStoreFromJSONString(json);
@@ -49,168 +41,86 @@ public class Manager implements ResponseHandler {
         }
     }
 
-    public static void test(Manager manager) throws Exception{
-        String json = StoreParser.jsonFileToString("res/store1.json");
+    private void applyTasks(Task[] tasks) {
+        for (Task task : tasks) {
+            this.sendToMaster(task);
+        }
+        
+    }
 
-        String json2 = StoreParser.jsonFileToString("res/store2.json");
-        String json3 = StoreParser.jsonFileToString("res/store3.json");
-        String json4 = StoreParser.jsonFileToString("res/store4.json");
-        String json5 = StoreParser.jsonFileToString("res/store5.json");
 
-        Store store = StoreParser.createStoreFromJSONString(json);
-        Store store2 = StoreParser.createStoreFromJSONString(json2);
-        Store store3 = StoreParser.createStoreFromJSONString(json3);
-        Store store4 = StoreParser.createStoreFromJSONString(json4);
-        Store store5 = StoreParser.createStoreFromJSONString(json5);
-        // manager.sendToMaster(new Task(0, GlobalConfig.ADD_STORE, true, Map.of("json", json) ));
-        // manager.sendToMaster(new Task(0, GlobalConfig.ADD_STORE, true, Map.of("json", json2)));
-        Thread.sleep(1000);
+    public void test() throws Exception{
+       loadStoresFromJSONFiles(new String[] {
+            "res/store1.json",
+            "res/store2.json",
+            "res/store3.json",
+            "res/store4.json",
+            "res/store5.json"
+        });
+        Thread.sleep(1000); // Wait for stores to be added
 
-        manager.sendToMaster(
-            new Task(0, GlobalConfig.ADD_STORE, true, 
-            Map.of(
-                "store", store,
-                "storeName", store.getStoreName()
-                ) 
-            )
-        );
-        manager.sendToMaster(
-            new Task(0, GlobalConfig.ADD_STORE, true, 
-            Map.of(
-                "store", store2,
-                "storeName", store2.getStoreName()
-                ) 
-            )
-        ); 
-        manager.sendToMaster(
-            new Task(0, GlobalConfig.ADD_STORE, true, 
-            Map.of(
-                "store", store3,
-                "storeName", store3.getStoreName()
-                ) 
-            )
-        );
+        System.out.println("-------------------------------\n\n");
 
-        manager.sendToMaster(
-            new Task(0, GlobalConfig.CHANGE_STOCK, true,
-            Map.of(
-                "storeName", "Burger Palace",
-                "productName", "Crispy Fries",
-                "quantity", -100
-                )
-            )
-        );
-    
-
-        manager.sendToMaster(
-            new Task(3, GlobalConfig.ADD_STORE, true, 
-            Map.of(
-                "store", store4,
-                "storeName", store4.getStoreName()
-                ) 
-            )
-        );
-        manager.sendToMaster(
-            new Task(4, GlobalConfig.ADD_STORE, true, 
-            Map.of(
-                "store", store5,
-                "storeName", store5.getStoreName()
-                ) 
-            )
-        );
-
-        // Thread.sleep(1000);
-        // manager.sendToMaster(
-        //     new Task(5, GlobalConfig.REMOVE_PRODUCT, true,
-        //     Map.of(
-        //         "storeName", "Coffee Hub",
-        //         "productName", "Blueberry Muffin"
-        //         )
-        //     )
-        // );
-
+         applyTasks(new Task[] {
+            // new Task(0, GlobalConfig.CHANGE_STOCK, true,
+            //         Map.of(
+            //             "storeName", "Burger Palace",
+            //             "productName", "Crispy Fries",
+            //             "quantity", -3
+            //         )
+            //     ),
+                // new Task(5, GlobalConfig.REMOVE_PRODUCT, true,
+                //     Map.of(
+                //         "storeName", "Coffee Hub",
+                //         "productName", "Blueberry Muffin"
+                //     )
+                // ),
+                // new Task(6, GlobalConfig.ADD_PRODUCT, true,
+                //     Map.of(
+                //         "storeName", "Burger Palace",
+                //         "product", new Product("Dedicon", "Food", 10, 7.5)
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Burger Palace",
+                //         "productName", "Double Cheeseburger",
+                //         "quantity", 2
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Burger Palace",
+                //         "productName", "Double Cheeseburger",
+                //         "quantity", 2
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Sushi Spot",
+                //         "productName", "Salmon Nigiri",
+                //         "quantity", 10
+                //     )
+                // ),
+                // new Task(0, GlobalConfig.FILTER_STORES, false,
+                //     Map.of(
+                //         "category", "",
+                //         "stars", 0,
+                //         "price", "",
+                //         "latitude", 0.0,
+                //         "longitude", 0.0
+                //     )
+                // ),
+                // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
+                // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY, false,
+                //     Map.of("category", "Food")
+                // ),
+                // new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false,
+                //     Map.of("category", "Burger")
+                // )
+         });
 
         
-        // manager.sendToMaster(
-        //     new Task(6, GlobalConfig.ADD_PRODUCT, true,
-        //     Map.of(
-        //         "storeName", "Burger Palace",
-        //         "product", new Product("Dedicon", "Food", 10, 7.5)
-        //         )
-        //     )
-        // ); 
-        // Thread.sleep(1000);
-        // manager.sendToMaster(
-        //     new Task(7, GlobalConfig.BUY, true,
-        //     Map.of(
-        //         "storeName", "Burger Palace",
-        //         "productName", "Double Cheeseburger",
-        //         "quantity", 2
-        //         )
-        //     )
-        // );
-        // manager.sendToMaster(
-        //     new Task(7, GlobalConfig.BUY, true,
-        //     Map.of(
-        //         "storeName", "Burger Palace",
-        //         "productName", "Double Cheeseburger",
-        //         "quantity", 2
-        //         )
-        //     )
-        // );
-       
-        // manager.sendToMaster(
-        //     new Task(7, GlobalConfig.BUY, true,
-        //     Map.of(
-        //         "storeName", "Sushi Spot",
-        //         "productName", "Salmon Nigiri",
-        //         "quantity", 10
-        //         )
-        //     )
-        // );
-        // Thread.sleep(1000);
-        // manager.sendToMaster(
-        //     new Task(0, GlobalConfig.FILTER_STORES, false, 
-        //     Map.of(
-        //         "category", "",
-        //         "stars", 0,
-        //         "price", "",
-        //         "latitude", 0.0,
-        //         "longitude", 0.0
-        //         ) 
-        //     )
-        // );
-    //  Thread.sleep(1000);
-    //     manager.sendToMaster(
-    //         new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, 
-    //         null)
-    //     );
-
-        // Thread.sleep(1000);
-        // manager.sendToMaster(new Task(GlobalConfig.BUY, true, 
-        //     Map.of(
-        //         "storeName", "Burger Palace",
-        //         "productName", "Double Cheeseburger",
-        //         "quantity", 2
-        //     )
-        // ));
-
-        // Thread.sleep(2000);
-        // manager.sendToMaster(
-        //     new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY, false, 
-        //     Map.of(
-        //         "category", "Food"
-        //         ) 
-        //     )
-        // );
-        // Thread.sleep(2000);
-        // manager.sendToMaster(
-        //     new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false, 
-        //     Map.of(
-        //         "category", "Burger"
-        //         ) 
-        //     )
-        // );
 
     }
 
@@ -352,14 +262,18 @@ public class Manager implements ResponseHandler {
         return;
     }
 
+    private void setupDummyUserInterface() {
+       Scanner scanner = new Scanner(System.in);
+        while (true) {
+            waitForUserInput(scanner);
+        }
+    }
+
     public static void main(String args[]) throws Exception {
         Manager manager = new Manager();
-        test(manager);
+        manager.test();
 
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            manager.waitForUserInput(scanner);
-        }
+        //manager.setupDummyUserInterface();
 
         
 	}

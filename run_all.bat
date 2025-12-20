@@ -1,6 +1,16 @@
 @echo off
 cd /d %~dp0
 
+@echo off
+cd /d %~dp0
+
+:: Close CMDs from previous run
+taskkill /FI "WINDOWTITLE eq Compile" /T /F >nul 2>&1
+taskkill /FI "WINDOWTITLE eq Master" /T /F >nul 2>&1
+taskkill /FI "WINDOWTITLE eq WorkerNode" /T /F >nul 2>&1
+taskkill /FI "WINDOWTITLE eq Reducer" /T /F >nul 2>&1
+taskkill /FI "WINDOWTITLE eq Manager" /T /F >nul 2>&1
+
 :: Compile all Java files
 start "Compile" cmd /k "javac *.java"
 

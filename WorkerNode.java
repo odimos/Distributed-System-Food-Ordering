@@ -30,7 +30,7 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
             }
             stores.put(name, store);
         }  
-        return "Store" + name + " added Succesfuly";
+        return "Store" + name + " added Successfully";
     }
 
     public synchronized String removeStore(String name) {
@@ -408,19 +408,21 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
     }
 
     private String changeStock(String storeName, String productName, int quantity) {
+        String result="";
         synchronized (stores){
             Store store = getStore(storeName);
             if (store == null){
                 return "Store " + storeName + " doesnt exist, stock change failed";
             }
-            store.changeStock(productName, quantity);
+            result= store.changeStock(productName, quantity);
         }
-        return "Product: "+productName + " stock changed in Store: " + storeName;
+        return "Product: "+productName + " stock changed in Store: " + storeName + ", from " + result;
     }
 
     public void createServer(){
+        System.out.println("Worker Node "+ this.id + " starting server... " + (GlobalConfig.INITIAL_PORT_FOR_WORKERS+this.id));
         new Server<WorkerNode>()
-        .openServer(this, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+id) );
+        .openServer(this, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+this.id) );
     }
 
     public static void main(String[] args) throws Exception {

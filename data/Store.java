@@ -112,7 +112,7 @@ public class Store implements Serializable {
         product.purchase(quantity);
         sales.add(new Sale(foodCategory, product.getProductType(), quantity, this.storeName, product.getProductName()));
         System.out.println( "after bought sales: "+sales);
-        return "Bought " +quantity+ " "+ product.getProductName()+ " Succesfully";
+        return "Bought " +quantity+ " "+ product.getProductName()+" from "+ this.storeName + " Successfully";
     }
 
     public synchronized String buy(String productName, int quantity){

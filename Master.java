@@ -24,7 +24,7 @@ public class Master implements RequestHandler, ResponseHandler {
 
     public void createServer(){
         new Server<Master>()
-        .openServer(this, GlobalConfig.MASTER_PORT_FOR_CLIENTS);
+        .openServer(this, GlobalConfig.MASTER_PORT_FOR_CLIENTS, "Master");
     }
 
     public synchronized int nextID(){
@@ -58,7 +58,7 @@ public class Master implements RequestHandler, ResponseHandler {
 
     @Override
     public Answer handleRequestFromClient(Task req) {
-        System.out.println("Master: Received Request from Pelati");
+        System.out.println("Master: Received Request "+ GlobalConfig.getCommandName(req.type) +" from Pelati");
         
         int taskID = nextID();
         Pending pending = new Pending();
@@ -69,14 +69,14 @@ public class Master implements RequestHandler, ResponseHandler {
         if (! req.imediateAnswer){
             // send to all
             for (int i = 0; i < GlobalConfig.WORKERS_NUMBER; i++) {
-                System.out.println("Will send to ALL"+req);
+                System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type) +" to ALL");
                 sendToWorker(req, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+i));
             }
 
         } else {
             // send to one 
             int port = selectWorkerPort((String) req.arguments.get("storeName"));
-            System.out.println("Will send to "+port+ " "+req);
+            System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type) + " to "+port);
             sendToWorker(req, port);
         }
         // Decide where to send the request
@@ -129,7 +129,7 @@ public class Master implements RequestHandler, ResponseHandler {
 
         public void openServer() {
             new Server<InnerMaster>()
-            .openServer(this, GlobalConfig.MASTER_PORT_FOR_REDUCER_AS_CLIENT);
+            .openServer(this, GlobalConfig.MASTER_PORT_FOR_REDUCER_AS_CLIENT,"(InnerMaster for Reducer)");
         }
 
 

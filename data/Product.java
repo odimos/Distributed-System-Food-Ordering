@@ -76,12 +76,13 @@ public class Product implements Serializable {
     }
 
     public synchronized String changeStock(int quantity) {
+        int oldAmount = this.availableAmount;
         this.availableAmount += quantity;
         if (this.availableAmount < 0) {
             this.availableAmount = 0;
-            return "Stock changed";
+            return "" + oldAmount + ", to " + this.availableAmount;
         }
-        return "Stock changed";
+        return "" + oldAmount + ", to " + this.availableAmount;
     }
 }
 

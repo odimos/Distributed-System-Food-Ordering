@@ -2,14 +2,14 @@ public final class GlobalConfig {
 
     public static final int WORKERS_NUMBER = 3;
 
-    public static final String MASTER_HOST_IP = "192.168.2.3";
+    public static final String MASTER_HOST_IP = "localhost";
     public static final int MASTER_PORT_FOR_CLIENTS = 4440;
     public static final int MASTER_PORT_FOR_REDUCER_AS_CLIENT = 5011;
 
-    public static final String WORKERNODE_HOST_IP = "192.168.2.3";
+    public static final String WORKERNODE_HOST_IP = "localhost";
     public static final int INITIAL_PORT_FOR_WORKERS = 4442;
 
-    public static final String REDUCER_HOST_IP = "192.168.2.3";
+    public static final String REDUCER_HOST_IP = "localhost";
     public static final int REDUCER_PORT_WORKER_AS_CLIENT = 5012;
 
     public static final int ADD_STORE = 1;
