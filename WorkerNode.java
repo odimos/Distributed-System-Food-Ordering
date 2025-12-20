@@ -130,9 +130,9 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
     }
 
     public List<Store> filter(
-        String category,
-        int stars,
-        String price,
+        List<String> categories,
+        List<Integer> stars,
+        List<String> price,
         double latitude,
         double longitude
     ){
@@ -140,9 +140,9 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
         synchronized (stores){
             for (Store store : stores.values()) {
                 if (
-                    (category.isEmpty() || store.getFoodCategory().equalsIgnoreCase(category) ) &&
-                    ( stars == 0.0 || Math.round(store.getStars()) == stars )  &&
-                    ( price.isEmpty() || store.getPriceCategoryString().equalsIgnoreCase(price)  ) 
+                    (categories.isEmpty() || categories.contains(store.getFoodCategory()) ) &&
+                    ( stars.isEmpty() || stars.contains((int) Math.round(store.getStars())))  &&
+                    ( price.isEmpty() || price.contains(store.getPriceCategoryString())  ) 
                     && ( store.distance(latitude, longitude) < 5000000.00 ) // fix
                 ){
                     filteredStores.add(store);
@@ -269,10 +269,11 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
 
             switch (req.type) {
                 case GlobalConfig.FILTER_STORES:
+                @SuppressWarnings("unchecked")
                 List<Store> storesList =  filter(
-                    (String) req.arguments.get("category"),
-                    (int) req.arguments.get("stars"),
-                    (String) req.arguments.get("price"),
+                    (List<String>) req.arguments.get("categories"),
+                    (List<Integer>) req.arguments.get("stars"),
+                    (List<String>) req.arguments.get("price"),
                     (double) req.arguments.get("latitude"),
                     (double) req.arguments.get("longitude")
                 );

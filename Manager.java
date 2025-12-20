@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -90,47 +91,47 @@ public class Manager implements ResponseHandler {
         Thread.sleep(1000); // Wait for purchases to be processed
 
          applyTasks(new Task[] {
-            new Task(0, GlobalConfig.CHANGE_STOCK, true,
+            // new Task(0, GlobalConfig.CHANGE_STOCK, true,
+            //         Map.of(
+            //             "storeName", "Burger Palace",
+            //             "productName", "Crispy Fries",
+            //             "quantity", -3
+            //         )
+            //     ),
+            //     new Task(5, GlobalConfig.REMOVE_PRODUCT, true,
+            //         Map.of(
+            //             "storeName", "Coffee Hub",
+            //             "productName", "Blueberry Muffin"
+            //         )
+            //     ),
+            //     new Task(6, GlobalConfig.ADD_PRODUCT, true,
+            //         Map.of(
+            //             "storeName", "Burger Palace",
+            //             "product", new Product("Dedicon", "Food", 10, 7.5)
+            //         )
+            //     ),
+
+                new Task(0, GlobalConfig.FILTER_STORES, false,
                     Map.of(
-                        "storeName", "Burger Palace",
-                        "productName", "Crispy Fries",
-                        "quantity", -3
-                    )
-                ),
-                new Task(5, GlobalConfig.REMOVE_PRODUCT, true,
-                    Map.of(
-                        "storeName", "Coffee Hub",
-                        "productName", "Blueberry Muffin"
-                    )
-                ),
-                new Task(6, GlobalConfig.ADD_PRODUCT, true,
-                    Map.of(
-                        "storeName", "Burger Palace",
-                        "product", new Product("Dedicon", "Food", 10, 7.5)
+                        "categories", (Serializable) List.of(),
+                        "stars", (Serializable) List.of(),
+                        "price", (Serializable) List.of(),
+                        "latitude", 0.0,
+                        "longitude", 0.0
                     )
                 ),
 
-                // new Task(0, GlobalConfig.FILTER_STORES, false,
-                //     Map.of(
-                //         "category", "",
-                //         "stars", 0,
-                //         "price", "",
-                //         "latitude", 0.0,
-                //         "longitude", 0.0
-                //     )
-                // ),
-
          });
-         Thread.sleep(1000); // Wait for tasks to be processed
-         applyTasks(new Task[]{
-                new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
-                new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY, false,
-                    Map.of("category", "Food")
-                ),
-                new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false,
-                    Map.of("category", "Burger")
-                )
-         });
+        //  Thread.sleep(1000); // Wait for tasks to be processed
+        //  applyTasks(new Task[]{
+        //         new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
+        //         new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY, false,
+        //             Map.of("category", "Food")
+        //         ),
+        //         new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false,
+        //             Map.of("category", "Burger")
+        //         )
+        //  });
 
         
 
