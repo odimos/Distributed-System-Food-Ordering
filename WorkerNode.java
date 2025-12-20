@@ -314,7 +314,7 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
                 
                 case GlobalConfig.GET_SALES_PER_PRODUCT:
                     List<Sale> salesList3 = getSales();
-                    System.out.println("Sales List: "+salesList3);
+                    //System.out.println("Sales List: "+salesList3);
                     List<Pair<String, Integer>> sortedList3 = sortSalesPerProduct(salesList3);
 
                     taskToSend = new Task(req.clientTaskID, req.type, false, 
@@ -328,7 +328,7 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
                 
             }   
             
-            System.out.println("Sending to reducer: "+taskToSend);
+            System.out.println("Sending to reducer: "+GlobalConfig.getCommandName(req.type)+" request, with id:"+req.ID+", from Worker "+this.id);
             (new Client<WorkerNode>(taskToSend, GlobalConfig.REDUCER_HOST_IP, GlobalConfig.REDUCER_PORT_WORKER_AS_CLIENT, this))
             .start();
 

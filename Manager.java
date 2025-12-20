@@ -71,13 +71,13 @@ public class Manager implements ResponseHandler {
                 //         "quantity", 2
                 //     )
                 // ),
-                new Task(7, GlobalConfig.BUY, true,
-                    Map.of(
-                        "storeName", "Burger Palace",
-                        "productName", "Double Cheeseburger",
-                        "quantity", 2
-                    )
-                ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Burger Palace",
+                //         "productName", "Double Cheeseburger",
+                //         "quantity", 2
+                //     )
+                // ),
                 // new Task(7, GlobalConfig.BUY, true,
                 //     Map.of(
                 //         "storeName", "Sushi Spot",
@@ -119,13 +119,13 @@ public class Manager implements ResponseHandler {
                 //         "longitude", 0.0
                 //     )
                 // ),
-                new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
+                // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
                 // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY, false,
                 //     Map.of("category", "Food")
                 // ),
-                // new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false,
-                //     Map.of("category", "Burger")
-                // )
+                new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false,
+                    Map.of("category", "Burger")
+                )
          });
 
         

@@ -35,6 +35,7 @@ public class Reducer implements ResponseHandler, RequestHandler {
                     Map.of("result", (Serializable) final_result),
                     id
                 );
+                System.out.println("Reducer: Sending to Master: "+GlobalConfig.getCommandName(type)+" result, with id:"+id+", for client task id "+clientTaskID);
                 sendToMaster(task);
             }
         }
@@ -78,7 +79,7 @@ public class Reducer implements ResponseHandler, RequestHandler {
 
     @Override
     public Answer handleRequestFromClient(Task req) {
-        System.out.println("Reducer: "+req);
+        System.out.println("Reducer: "+GlobalConfig.getCommandName(req.type)+" request, with id:"+req.ID);
         int id = req.ID;
         synchronized (operations) {
             if (!operations.containsKey(id)) {

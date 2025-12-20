@@ -116,9 +116,9 @@ public class Master implements RequestHandler, ResponseHandler {
             // }
 
             Pending pending = getPending(taskID);
-            System.out.println("InnerMaster: Received Request from Reducer "+pending+" "+taskID);
+            System.out.println("InnerMaster: Received result from Reducer "+GlobalConfig.getCommandName(req.type)+", id:"+taskID+", for client task id "+req.clientTaskID);
             //printPendings(taskID);
-            Answer answer = new Answer(req, "Answer from InnerMaster");
+            Answer answer = new Answer(req, "Reducer Result");
             answer.arguments.put("result", req.arguments.get("result"));
             pending.setAnswer(answer); // could remove from pendings with the key
 
