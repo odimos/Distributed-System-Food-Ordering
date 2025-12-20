@@ -110,22 +110,22 @@ public class Manager implements ResponseHandler {
             //         )
             //     ),
 
-                // new Task(0, GlobalConfig.FILTER_STORES, false,
-                //     Map.of(
-                //         "category", "",
-                //         "stars", 0,
-                //         "price", "",
-                //         "latitude", 0.0,
-                //         "longitude", 0.0
-                //     )
-                // ),
+                new Task(0, GlobalConfig.FILTER_STORES, false,
+                    Map.of(
+                        "category", "",
+                        "stars", 0,
+                        "price", "",
+                        "latitude", 0.0,
+                        "longitude", 0.0
+                    )
+                ),
                 // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT, false, null),
                 // new Task(9, GlobalConfig.GET_SALES_PER_PRODUCT_CATEGORY, false,
                 //     Map.of("category", "Food")
                 // ),
-                new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false,
-                    Map.of("category", "Burger")
-                )
+                // new Task(9, GlobalConfig.GET_SALES_PER_FOOD_CATEGORY, false,
+                //     Map.of("category", "Burger")
+                // )
          });
 
         
