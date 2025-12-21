@@ -119,11 +119,11 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
         return "Rate for: "+storeName + " was successfull";
     }
 
-    public String buy(String storeName, String productName, int quantity){
+    public Object[] buy(String storeName, String productName, int quantity){
         synchronized (stores){
             Store store = getStore(storeName);
             if (store == null){
-                return "Store " + storeName + " doesnt exist, buy failed";
+                return new Object[]{false, "Store " + storeName + " doesnt exist, buy failed"};
             }
             return store.buy(productName, quantity);
         }
@@ -371,13 +371,16 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
                 );
             
             case GlobalConfig.BUY:
-                return new Answer(req,
-                        buy(
+                Object[] buyResult = buy(
                             (String) req.arguments.get("storeName"),
                             (String) req.arguments.get("productName"),
                             (int) req.arguments.get("quantity")
+                    );
+                String status = (Boolean) buyResult[0] ? "Success" : buyResult[1].toString();
+                return new Answer(req,
+                        status
                     )
-                );
+                ;
             case GlobalConfig.CHANGE_STOCK:
                 return new Answer(req,
                         changeStock(
@@ -404,9 +407,9 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
         return "Product: "+productName + " stock changed in Store: " + storeName + ", from " + result;
     }
 
-    public void createServer(){
+    public void createServer(int port){
         new Server<WorkerNode>()
-        .openServer(this, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+this.id), ("WorkerNode "+this.id));
+        .openServer(this, port, ("WorkerNode "+this.id));
     }
 
     public static void main(String[] args) throws Exception {
@@ -428,8 +431,9 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
         //     }
         // }    
         int worketID = Integer.parseInt(args[0]);
+        int workerPort = Integer.parseInt(args[1]);
        WorkerNode node = new WorkerNode(worketID);
-       node.createServer();
+       node.createServer(workerPort);
     }
     
 }

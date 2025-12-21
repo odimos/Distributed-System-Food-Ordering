@@ -6,9 +6,33 @@ import data.Task;
 
 public class Master implements RequestHandler, ResponseHandler {
 
+    
+    private class WorkerInfo {
+        public String host;
+        public int port;
+        public int id;
+
+        public WorkerInfo(String host, int port, int id){
+            this.id = id;
+            this.host = host;
+            this.port = port;
+        }
+
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            return super.toString();
+        }
+    
+        
+    }
+
+    private WorkerInfo[] workersArray = new WorkerInfo[ GlobalConfig.workers.size() ];
+
     private final Map<Integer, Pending> pendings = new HashMap<Integer, Pending>();
     private int taskIDcount=0;
     private InnerMaster innerMaster = new InnerMaster();
+    
 
     public Pending getPending(int id) {
         synchronized (pendings) {
@@ -65,19 +89,20 @@ public class Master implements RequestHandler, ResponseHandler {
         addPending(taskID, pending);
         req.ID = taskID;
         
-
         if (! req.imediateAnswer){
             // send to all
             System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type)+" request, id:"+taskID+", to ALL workers");
-            for (int i = 0; i < GlobalConfig.WORKERS_NUMBER; i++) {
-                sendToWorker(req, (GlobalConfig.INITIAL_PORT_FOR_WORKERS+i));
+            for (int i = 0; i < GlobalConfig.workers.size(); i++) {
+                WorkerInfo worker = workersArray[i];
+                sendToWorker(req, worker.host, worker.port);
             }
 
         } else {
             // send to one 
-            int port = selectWorkerPort((String) req.arguments.get("storeName"));
-            System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type) + " request, id:"+taskID+", to worker "+port);
-            sendToWorker(req, port);
+            int workeers_index = selectWorker((String) req.arguments.get("storeName"));
+            WorkerInfo worker = workersArray[workeers_index];
+            System.out.println("Master sending "+ GlobalConfig.getCommandName(req.type) + " request, id:"+taskID+", to worker "+worker.port);
+            sendToWorker(req, worker.host, worker.port);
         }
         // Decide where to send the request
         
@@ -86,13 +111,13 @@ public class Master implements RequestHandler, ResponseHandler {
         return answer;
     }
 
-    public void sendToWorker(Task task, int port) {
-        (new Client<Master>(task, GlobalConfig.WORKERNODE_HOST_IP, port, this))
+    public void sendToWorker(Task task, String host, int port) {
+        (new Client<Master>(task, host, port, this))
        .start();
     }
 
-    public int selectWorkerPort(String storeName){
-        return  (Math.abs(storeName.hashCode()) % GlobalConfig.WORKERS_NUMBER) + GlobalConfig.INITIAL_PORT_FOR_WORKERS;
+    public int selectWorker(String storeName){
+        return  (Math.abs(storeName.hashCode()) % GlobalConfig.workers.size());
     }
 
     public void printPendings(int id){
@@ -133,6 +158,18 @@ public class Master implements RequestHandler, ResponseHandler {
 
     }
 
+    public void initialiseWorkers(){
+        int count=0;
+        for (Pair<String, Integer> worker : GlobalConfig.workers) {
+            String host = worker.first;
+            int port = worker.second;
+            WorkerInfo wInfo = new WorkerInfo(host, port, count);
+            workersArray[count] = wInfo;
+            count++;
+            // Could store wInfo in a map if needed
+        }
+    }
+
     public static void main(String args[]) {
         Master master = new Master();
         new Thread(()->{
@@ -142,6 +179,8 @@ public class Master implements RequestHandler, ResponseHandler {
         new Thread(()->{
             master.innerMaster.openServer();
         }).start();
+        master.initialiseWorkers();
+
         
 
         // create subMaster to use as client with the Pelatis

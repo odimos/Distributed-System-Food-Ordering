@@ -86,6 +86,27 @@ public class Manager implements ResponseHandler {
                         "quantity", 10
                     )
                 ),
+                new Task(7, GlobalConfig.BUY, true,
+                    Map.of(
+                        "storeName", "Sushi Spot",
+                        "productName", "Salmon Nigiri",
+                        "quantity", 10
+                    )
+                ),
+                new Task(7, GlobalConfig.BUY, true,
+                    Map.of(
+                        "storeName", "Sus Spot",
+                        "productName", "Salmon Nigiri",
+                        "quantity", 10
+                    )
+                ),
+                new Task(7, GlobalConfig.BUY, true,
+                    Map.of(
+                        "storeName", "Sushi Spot",
+                        "productName", "Salmoigiri",
+                        "quantity", 10
+                    )
+                ),
         });
 
         Thread.sleep(1000); // Wait for purchases to be processed
@@ -111,15 +132,15 @@ public class Manager implements ResponseHandler {
             //         )
             //     ),
 
-                new Task(0, GlobalConfig.FILTER_STORES, false,
-                    Map.of(
-                        "categories", (Serializable) List.of(),
-                        "stars", (Serializable) List.of(),
-                        "price", (Serializable) List.of(),
-                        "latitude", 0.0,
-                        "longitude", 0.0
-                    )
-                ),
+                // new Task(0, GlobalConfig.FILTER_STORES, false,
+                //     Map.of(
+                //         "categories", (Serializable) List.of(),
+                //         "stars", (Serializable) List.of(),
+                //         "price", (Serializable) List.of(),
+                //         "latitude", 0.0,
+                //         "longitude", 0.0
+                //     )
+                // ),
 
          });
         //  Thread.sleep(1000); // Wait for tasks to be processed

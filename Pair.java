@@ -18,4 +18,5 @@ public class Pair<A, B> implements Serializable {
     public String toString() {
         return "(" + first + ", " + second + ")";
     }
+    
 }

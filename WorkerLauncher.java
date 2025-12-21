@@ -2,9 +2,9 @@ import java.io.IOException;
 
 public class WorkerLauncher {
     public static void main(String[] args) {
-        for (int i = 0; i < GlobalConfig.WORKERS_NUMBER; i++) {
+        for (int i = 0; i < GlobalConfig.workers.size(); i++) {
             ProcessBuilder pb = new ProcessBuilder(
-                "java", "WorkerNode", String.valueOf(i)
+                "java", "WorkerNode", String.valueOf(i), String.valueOf(GlobalConfig.workers.get(i).second)
             );
             pb.inheritIO(); // to output on the same cmd
             try {

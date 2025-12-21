@@ -3,6 +3,8 @@ package data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 
 public class Store implements Serializable {
     private static final long serialVersionUID = 3L;
@@ -15,7 +17,7 @@ public class Store implements Serializable {
     public int noOfVotes;
     public String priceCategory; // $, $$, $$$
     public String storeLogo;
-
+    
     public List<Sale> sales;
     public double totalRevenue;
     public int expensivenessCategory;
@@ -106,18 +108,18 @@ public class Store implements Serializable {
         return product;
     }
 
-    public synchronized String buyProduct(Product product, int quantity){
+    public synchronized Object[] buyProduct(Product product, int quantity){
         int availableAmount = product.getAvailableAmount();
-        if ( availableAmount < quantity ) return "Not enough stock";
+        if ( availableAmount < quantity ) return new Object[]{ false, "Not enough stock, only " + availableAmount };
         product.purchase(quantity);
         sales.add(new Sale(foodCategory, product.getProductType(), quantity, this.storeName, product.getProductName()));
         //System.out.println( "after bought sales: "+sales);
-        return "Bought " +quantity+ " "+ product.getProductName()+" from "+ this.storeName + " Successfully";
+        return new Object[]{ true, "Bought " +quantity+ " "+ product.getProductName()+" from "+ this.storeName + " Successfully" };
     }
 
-    public synchronized String buy(String productName, int quantity){
+    public synchronized Object[] buy(String productName, int quantity){
         Product product = getProduct(productName);
-        if (product==null) return "Product not Found";
+        if (product==null)  return new Object[]{ false, "Product not Found" };
         //System.out.println("buying product: "+product);
         return buyProduct(product, quantity);
     }

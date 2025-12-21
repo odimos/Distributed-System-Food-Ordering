@@ -29,7 +29,7 @@ public class Reducer implements ResponseHandler, RequestHandler {
         public void addResult(List<Object> partial_result) {
             this.partial_results.addAll(partial_result);
             this.size++;
-            if (this.size == GlobalConfig.WORKERS_NUMBER) { 
+            if (this.size == GlobalConfig.workers.size()) { 
                  List<Object> final_result = getFinalResult();
                 Task task = new Task(this.clientTaskID, type, false, 
                     Map.of("result", (Serializable) final_result),
