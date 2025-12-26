@@ -9,11 +9,12 @@
 The backend is implemented in Java and follows a distributed Master–Worker architecture with a custom MapReduce process.
 
 ### Architecture
-- Clients connect to the **Master** node via TCP sockets.
-- The Master distributes workload segments to multiple **Worker** nodes, which may run on different machines.
+- Clients connect to the **Master** node with TCP sockets.
+- The Master distributes tasks to multiple **Worker** nodes, which may run on different machines.
 - Each Worker processes tasks in parallel using a multithreaded architecture.
-- Partial results are sent to a **Reducer**, which aggregates them into the final result returned to the client.
-- All inter-node communication is implemented using TCP sockets.
+- Partial results are sent to the **Reducer**, which merges them into the final result and returns it to the master.
+- Master returns the final result to Client.
+- All nodes communicate with TCP sockets.
 
 A custom MapReduce process distributes store and product queries across workers and aggregates results at the Reducer.
 
@@ -42,8 +43,8 @@ Reducer -> Workers
 
 ### Data
 
-Each Worker node stores a collection of Stores objects.  
-A Store contains Products objects, Sales objects, logo image bytes, and other data.
+Each Worker node stores a collection of Store objects.  
+A Store contains Product objects, Sale objects, logo image bytes, and other data.
 
 ## Technologies 
 
