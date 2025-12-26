@@ -1,143 +1,148 @@
-Distributed System Food Ordering App.
+# Distributed System Food Ordering App.
+*Distributed Systems, Athens University Of Business 2025*
 
 [Demo]("")
 
 ![schema](res/schema.jpg)
 
-The back-end is written in java. 
-Connections between different nodes use TCP sockets.
-Workers can be in different machines.
-Multiple connection and WorkLoads can be handled in parallel inside each worker node with multithreaded architecture.
-The distrucuted data processing is achieved with a custom MapReduce implementation,
-the concurency is achieved with wait/notify.
 
-The ordering app is written with  kotlin coroutines and java threads to achieve the asynchronous 
-functionality.
-Apps UI is created with Jetpack Compose using Kotlin.
+The backend is implemented in Java and follows a distributed Master–Worker architecture with a custom MapReduce process.
 
+### Architecture
+- Clients connect to the **Master** node via TCP sockets.
+- The Master distributes workload segments to multiple **Worker** nodes, which may run on different machines.
+- Each Worker processes tasks in parallel using a multithreaded architecture.
+- Partial results are sent to a **Reducer**, which aggregates them into the final result returned to the client.
+- All inter-node communication is implemented using TCP sockets.
 
-All interactions between nodes follow a client–server model, implemented using shared Client and Server classes.
-Master (Server) <-> (Client) App, Manager
-Master (Client) <-> (Server) Workers
-Master (Server) <-> (Client) Reducer 
-Reducer (Server) <-> (Client) Workers
-Reducer (Server) <-> (Client) Workers
+A custom MapReduce process distributes store and product queries across workers and aggregates results at the Reducer.
 
-Technologies
-Language: Java
-Networking: TCP Sockets
-Storage: In-memory only
-Serialization: Java Serialization
-Concurrency: Threads + wait/notify, Kotlin Coroutines.
-No external networking libraries
+### Request Flow
 
-Ολες οι υλοποιήσεις της σχέσης client - server
-γίνονται με την κλάση Client και την κλάση Server
-Και στις δύο περιπτώσεις, προκειμένου να διαχιερίζεται την απάντηση αποτελεσματικά το αντικείμενο, 
-υπάρχει ο όρος <M extends ResponseHandler> .
-Οπότε κάθε αντικείμενο που θα καλέσει την σχέση client - server public Client( Task task, String host, int port, M manager)
-θα πρέπει να υλοποιεί και την συνάρτηση responseHandler ή requestHandler, η οποία θα καθορίζει πως διαχειρίζεται την απάντηση που δέχεται.
+1. Client sends a request to the Master
+2. Master splits the workload and dispatches tasks to Workers
+3. Workers process tasks in parallel
+4. Reducer aggregates partial results
+5. Master returns the final response to the client
 
-Οι συνδέσεις πραγματοποιούνται με TCP sockets σε νήματα (Threads)
+### Client / Server Communication
 
-A Task object starts from the managers cmd or the users app, and an Answer object returns back. 
+All communication between nodes follows a client–server model over TCP sockets, implemented with shared Client and Server classes.
+### Client → Server
+App, Manager -> Master
+Master -> Workers
+Master -> Reducer 
+Reducer -> Workers
 
-The information are stored in the form of objects of Store, Product, Sale .
-Stores are in JSON format.
+### Concurrency & Synchronization
 
-Τι αντικείμενα αποθηκεύουν οι WorkerNodes: Stores που έχουν μέσα products και sales
-Τι αντικείμενα διακινούνται: Από τον χρήστη Tasks
-Προς το χρήστη Answers
+- Parallelism is achieved using Java threads.
+- Thread coordination uses the `wait()` / `notify()` mechanism.
+- Data consistency is ensured with `synchronized` methods and synchronized blocks.
 
-Pending logig:
-Οταν ένα request τουπου απαιτεί τη συνεργασία των γόρκερς φτάνει από τον πελάτη στο μάστερ, 
-ο μάστερ δεν κλείνει τη σύνδεση με τον client, 
-πρώτα περιμένει να ολοκληρωθεί η διαδρομή από τους γόρκερς στο ρεντιουσερ κ πισω στο μάστερ,
-κ τότε, όταν δηλαδή επιστρέφει ο ρεντιουσερ στον μαστερ, επιστρέφει το αποτέλεσμα πίσω στον ξλαιεντ από
-την σύνδεση που παρέμεινε ανοιχτή, κ μετά την κλείνει.
+### Data
 
-Τα αιτήματα που εκρεμούν διατηρούνται σε μια λήστα που τα αντιστοιχέι με το id του αιτήματος
-(όχι το ID του τύπου του αιτήματος, το ID του αιτήματος clientTaskID). Τo id αυτό
-χρησιμοποιείται για να μπορεί να αναγνωρίζεται κ εντοπίζεται ποιο αίτημα είναι
-αυτό που περιμένει
- public Answer handleRequestFromClient(Task req) {
-    ...
-    Pending pending = new Pending();
-    addPending(taskID, pending);
-    ...
-    Answer answer = pending.waitForAnswer();
-    return answer
- }
+Each Worker node stores a collection of Stores objects.  
+A Store contains Products objects, Sales objects, logo image bytes, and other data.
 
- public class InnerMaster implements RequestHandler {
-        @Override
-        public Answer handleRequestFromClient(Task req) {
-            ...
-            Pending pending = getPending(taskID);
-            ...
-            pending.setAnswer(answer); // σε αυτό το σημείο συνεχίζει ο κώδικας που περιμένει παραπάνω
-            ...
+## Technologies 
 
-        }
- }
+- Language: Java
+- Networking: TCP Sockets
+- Serialization: Java Serialization
+- Concurrency: Threads with `wait()` / `notify()`
+- Storage: In-memory only
+- External Libraries: None (standard Java libraries only)
 
- public class Pending {
-    public Answer answer;
-    public boolean isSet = false;
+## Client / Server Abstraction
 
-    public synchronized Answer waitForAnswer() {
-        while (!isSet) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return answer;
-    }
+TCP communication is implemented using shared `Client` and `Server` classes.  
+Both classes are generic and receive a type parameter `M` that extends a handler interface.
 
-    public synchronized void setAnswer(Answer answer) {
-        if (!isSet) {
-            this.answer = answer;
-            this.isSet = true;
-            notify();  // Wake up waiting thread
-        }
-    }
-    
-}
+- `Client<M extends ResponseHandler>`
+- `Server<M extends RequestHandler>`
 
-H epikoinvnia γίνεταθ με tcp socket ObjectOutputStream, ObjectInputStream
+The handler instance is passed during construction and represents the node that owns the connection (Master, Worker or Reducer).
 
-η προστασία από τις ταυτόχρονες προσπάθιες εγραφής επιτυγχάνεται με το synchronized
+For the client:
+- `Client` manages the socket connection and message exchange.
+- Received responses are forwarded to the handler via `handleResponseFromServer(...)`.
 
-Τα αιτήματα λειτουργούν με τις μεθόδους wait - notify()
-οπότε περιμένουν όταν στέλνει request ο μάστερ στους γουροκερς, ειδοποιούνται να συνεχίσουν
-όταν δέχεται ο μάστερ ρικουεστ ο μαστερ απο τον ριντιουσερ
+For the server:
+- `Server` listens for incoming connections and reads requests.
+- Each request is forwarded to the handler via `handleRequest(...)`.
 
-Λειτουργίες manager:
-Προσθήκη καταστημάτων: ADD_STORE
-Προσθήκη / αφαίρεση διαθέσημων προϊόντων: ADD_PRODUCT / REMOVE_PRODUCT
-Αλλαγή του αριθμού διαθέσημων προϊόντων (stock): CHANGE_STOCK
-Εμφάνηση των συνολικών πωλήσεων ανά προϊόν: GET_SALES_PER_PRODUCT
-(δεν εμφανίζει όσα έχουν 0 πωλήσεις)
-Εμφάνηση όλων των συνολικών πωλήδεων των προϊόντων ανά κατηγορία προϊόντων: GET_SALES_PER_PRODUCT_CATEGORY
-(δεν εμφανίζει όσα έχουν 0 πωλήσεις)
-Εμφάνηση όλων τις συνολικές πωλήσεις των καταστημάτων που ανήκουν στη συγκεκριμένη κατηγορία φαγητού: GET_SALES_PER_FOOD_CATEGORY
-(δεν εμφανίζει όσα έχουν 0 πωλήσεις)
+The actual request/response handling logic is implemented in the owning node class, not inside `Client` or `Server`.
 
-Ανάγνωση των δεδομένων καταστημάτων από JSON αρχεία.
-Ολα τα δεδομένα που μεταφαίρονται με αυτο τον τρόπο είναι serialisable υποχρεωτικά
-Επίσης τα δεδομένα μεταφαίρονται με τη μορφή αντικειμένου κλάσης από το αππ στο σέρβερ, για αυτό
-υπάρχει το αναγνωριστικό serialVersionUID ώστε να είναι ίδια η υπογραφή.
+## Ordering Application
 
+The ordering app is written with  Kotlin coroutines and Java threads for asynchronous execution.
+The UI is implemented with Jetpack Compose. 
+[Link to repo]("")
 
-How to RUN
-important: DONT make requests like search from the app before the server is initialized.
-Doing so will lead to master catching the request as soon as it opens before the workers are created,
-and returning error. 
-Is fou get blocked by this way. Close the app. Close the server java.
-And then run first the server and then the app. 
-To not accidentaly make request with server blocked, just dont have the app open if the server is closed. 
-Run the server, then run the app.
-![Schema](res/schema.jpg)
+## Manager Capabilities
+- Add and remove stores
+- Add and remove available products
+- Update product stock
+- View sales statistics
+
+## Application Capabilities
+- View available stores
+- Filter stores based on options
+- Purchase a selected quantity of a product
+
+## Scope & Limitations
+- No persistent storage (in-memory only)
+- No fault tolerance or node recovery
+- Static configuration of nodes and ports
+
+## How to Run
+
+1. **Configure networking**
+   - Set the correct IP addresses and ports for all system components.
+   - Ensure all nodes are reachable over the network.
+   
+2. **Compile the source code**
+   Compile java files in the main directory and in the `data` directory:
+     ```bash
+     javac *.java data/*.java
+     ```
+
+3. **Start backend components**  
+   The startup order does not matter.
+   ```bash
+   java Master
+   java WorkerNode <id> <port> # put any id you want, a rule of thumb is to give ids in order: 1,2,3..
+   ...  # start all workers in their respective environment
+   java Reducer
+   ```
+
+4. **Initialize data**
+     ```bash
+     java Manager
+     ```
+5. **Run the application**
+    Use the App[link] to browse available stores and place orders.
+
+## Common issues 
+
+- **Thread blocking due to console input**
+  - Avoid clicking or selecting terminal output while nodes are running.
+  - Some terminals block the JVM thread when text is selected, causing the system to appear frozen.
+  - This can stall socket communication and worker execution.
+
+- **Blocked or unreachable ports**
+  - Ensure the selected ports are open and not used by other processes.
+  - Firewalls or OS security settings may block TCP connections.
+
+- **Incorrect IP configuration**
+  - Do not confuse internal (LAN) and external IP addresses.
+  - All nodes must be on the same network or explicitly routable.
+
+- **Nodes on different networks**
+  - Running components on different machines or VMs requires proper network bridging or port forwarding.
+  - NAT configurations may prevent direct TCP connections.
+
+- **Silent connection failures**
+  - A missing or incorrect port/IP may cause a node to block while waiting for a connection.
+  - Check logs, and write your own if needed, on both client and server sides when no output is produced.
