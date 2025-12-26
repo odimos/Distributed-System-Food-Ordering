@@ -1,0 +1,41 @@
+{
+    "StoreName": "Grill House",
+    "Latitude": 37.7812,
+    "Longitude": -122.4123,
+    "FoodCategory": "Burger",
+    "Stars": 4.1,
+    "NoOfVotes": 243,
+    "StoreLogo": "b2.πνγ",
+    "Products": [
+        {
+            "ProductName": "Classic Beef Burger",
+            "ProductType": "Food",
+            "Available Amount": 20,
+            "Price": 25.50
+        },
+        {
+            "ProductName": "Bacon BBQ Burger",
+            "ProductType": "Food",
+            "Available Amount": 12,
+            "Price": 29.90
+        },
+        {
+            "ProductName": "Seasoned Potato Wedges",
+            "ProductType": "Food",
+            "Available Amount": 30,
+            "Price": 21.75
+        },
+        {
+            "ProductName": "Vanilla Milkshake",
+            "ProductType": "Drink",
+            "Available Amount": 8,
+            "Price": 22.00
+        },
+        {
+            "ProductName": "Sparkling Water",
+            "ProductType": "Drink",
+            "Available Amount": 18,
+            "Price": 3.50
+        }
+    ]
+}

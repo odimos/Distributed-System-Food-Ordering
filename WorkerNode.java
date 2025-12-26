@@ -130,6 +130,7 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
     }
 
     public List<Store> filter(
+        String name,
         List<String> categories,
         List<Integer> stars,
         List<String> price,
@@ -140,6 +141,7 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
         synchronized (stores){
             for (Store store : stores.values()) {
                 if (
+                    (name.equals("") || store.getStoreName().toLowerCase().contains(name.toLowerCase()) ) &&
                     (categories.isEmpty() || categories.contains(store.getFoodCategory()) ) &&
                     ( stars.isEmpty() || stars.contains((int) Math.round(store.getStars())))  &&
                     ( price.isEmpty() || price.contains(store.getPriceCategoryString())  ) 
@@ -271,6 +273,7 @@ public class WorkerNode implements RequestHandler, ResponseHandler {
                 case GlobalConfig.FILTER_STORES:
                 @SuppressWarnings("unchecked")
                 List<Store> storesList =  filter(
+                    (String) req.arguments.get("name"),
                     (List<String>) req.arguments.get("categories"),
                     (List<Integer>) req.arguments.get("stars"),
                     (List<String>) req.arguments.get("price"),

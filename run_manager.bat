@@ -1,0 +1,1 @@
+start "Manager" cmd /k "java Manager"

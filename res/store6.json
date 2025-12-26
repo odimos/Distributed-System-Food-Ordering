@@ -1,0 +1,29 @@
+{
+    "StoreName": "Pasta Corner",
+    "Latitude": 41.9028,
+    "Longitude": 12.4964,
+    "FoodCategory": "Italian",
+    "Stars": 4.4,
+    "NoOfVotes": 132,
+    "StoreLogo": "pasta.png",
+    "Products": [
+        {
+            "ProductName": "Spaghetti Carbonara",
+            "ProductType": "Food",
+            "Available Amount": 20,
+            "Price": 11.5
+        },
+        {
+            "ProductName": "Lasagna",
+            "ProductType": "Food",
+            "Available Amount": 14,
+            "Price": 13.75
+        },
+        {
+            "ProductName": "Tiramisu",
+            "ProductType": "Dessert",
+            "Available Amount": 10,
+            "Price": 5.5
+        }
+    ]
+}

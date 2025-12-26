@@ -19,10 +19,14 @@ public class Client<M extends ResponseHandler> extends Thread  {
 	
 	public void run() {
 		Socket requestSocket = null;
+
 		ObjectOutputStream out = null;
 		ObjectInputStream in = null;
 		try {
+			//System.out.println("CONNECTING.. --> " + host + ":" + port);
 			requestSocket = new Socket(host, port);
+			requestSocket.setSoTimeout(15000); // wait up to 5s for readObject()
+
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
 			in = new ObjectInputStream(requestSocket.getInputStream());
 			
@@ -33,18 +37,17 @@ public class Client<M extends ResponseHandler> extends Thread  {
 	
 		} catch (UnknownHostException unknownHost) {
 			System.err.println("You are trying to connect to an unknown host!");
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				in.close();	out.close();
-				requestSocket.close();
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-			}
+		}  catch (SocketTimeoutException e) {
+			// no answer in time
+			// close socket and treat as failure
+			System.out.println("Socket timed out while waiting for response from " + host + ":" + port);
+		} 
+		 catch (Throwable t) {
+			t.printStackTrace();
+		}finally {
+			try { if (in != null) in.close(); } catch (Exception ignored) {}
+			try { if (out != null) out.close(); } catch (Exception ignored) {}
+			try { if (requestSocket != null) requestSocket.close(); } catch (Exception ignored) {}
 		}
 	}
 

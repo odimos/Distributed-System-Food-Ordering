@@ -1,0 +1,23 @@
+{
+    "StoreName": "Seafood Dock",
+    "Latitude": 48.8566,
+    "Longitude": 2.3522,
+    "FoodCategory": "Seafood",
+    "Stars": 4.3,
+    "NoOfVotes": 141,
+    "StoreLogo": "seafood.png",
+    "Products": [
+        {
+            "ProductName": "Grilled Salmon",
+            "ProductType": "Food",
+            "Available Amount": 16,
+            "Price": 17.5
+        },
+        {
+            "ProductName": "Fish & Chips",
+            "ProductType": "Food",
+            "Available Amount": 20,
+            "Price": 12.25
+        }
+    ]
+}

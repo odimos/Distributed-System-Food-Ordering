@@ -1,0 +1,23 @@
+{
+    "StoreName": "BBQ House",
+    "Latitude": 34.0522,
+    "Longitude": -118.2437,
+    "FoodCategory": "BBQ",
+    "Stars": 4.1,
+    "NoOfVotes": 99,
+    "StoreLogo": "bbq.png",
+    "Products": [
+        {
+            "ProductName": "BBQ Ribs",
+            "ProductType": "Food",
+            "Available Amount": 12,
+            "Price": 18.99
+        },
+        {
+            "ProductName": "Pulled Pork Sandwich",
+            "ProductType": "Food",
+            "Available Amount": 18,
+            "Price": 9.75
+        }
+    ]
+}

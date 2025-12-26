@@ -1,0 +1,23 @@
+{
+    "StoreName": "Dessert Lab",
+    "Latitude": 55.7558,
+    "Longitude": 37.6173,
+    "FoodCategory": "Dessert",
+    "Stars": 4.9,
+    "NoOfVotes": 210,
+    "StoreLogo": "dessert.png",
+    "Products": [
+        {
+            "ProductName": "Cheesecake",
+            "ProductType": "Dessert",
+            "Available Amount": 18,
+            "Price": 6.5
+        },
+        {
+            "ProductName": "Chocolate Brownie",
+            "ProductType": "Dessert",
+            "Available Amount": 25,
+            "Price": 4.25
+        }
+    ]
+}

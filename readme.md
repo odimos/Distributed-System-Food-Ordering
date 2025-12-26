@@ -1,9 +1,35 @@
+Distributed System Food Ordering App.
 
-Master (Server) <-> (Client) Manager, App
+[Demo]("")
+
+![schema](res/schema.jpg)
+
+The back-end is written in java. 
+Connections between different nodes use TCP sockets.
+Workers can be in different machines.
+Multiple connection and WorkLoads can be handled in parallel inside each worker node with multithreaded architecture.
+The distrucuted data processing is achieved with a custom MapReduce implementation,
+the concurency is achieved with wait/notify.
+
+The ordering app is written with  kotlin coroutines and java threads to achieve the asynchronous 
+functionality.
+Apps UI is created with Jetpack Compose using Kotlin.
+
+
+All interactions between nodes follow a client–server model, implemented using shared Client and Server classes.
+Master (Server) <-> (Client) App, Manager
 Master (Client) <-> (Server) Workers
 Master (Server) <-> (Client) Reducer 
 Reducer (Server) <-> (Client) Workers
 Reducer (Server) <-> (Client) Workers
+
+Technologies
+Language: Java
+Networking: TCP Sockets
+Storage: In-memory only
+Serialization: Java Serialization
+Concurrency: Threads + wait/notify, Kotlin Coroutines.
+No external networking libraries
 
 Ολες οι υλοποιήσεις της σχέσης client - server
 γίνονται με την κλάση Client και την κλάση Server
@@ -18,6 +44,10 @@ A Task object starts from the managers cmd or the users app, and an Answer objec
 
 The information are stored in the form of objects of Store, Product, Sale .
 Stores are in JSON format.
+
+Τι αντικείμενα αποθηκεύουν οι WorkerNodes: Stores που έχουν μέσα products και sales
+Τι αντικείμενα διακινούνται: Από τον χρήστη Tasks
+Προς το χρήστη Answers
 
 Pending logig:
 Οταν ένα request τουπου απαιτεί τη συνεργασία των γόρκερς φτάνει από τον πελάτη στο μάστερ, 
@@ -102,5 +132,12 @@ H epikoinvnia γίνεταθ με tcp socket ObjectOutputStream, ObjectInputStre
 υπάρχει το αναγνωριστικό serialVersionUID ώστε να είναι ίδια η υπογραφή.
 
 
-
+How to RUN
+important: DONT make requests like search from the app before the server is initialized.
+Doing so will lead to master catching the request as soon as it opens before the workers are created,
+and returning error. 
+Is fou get blocked by this way. Close the app. Close the server java.
+And then run first the server and then the app. 
+To not accidentaly make request with server blocked, just dont have the app open if the server is closed. 
+Run the server, then run the app.
 ![Schema](res/schema.jpg)

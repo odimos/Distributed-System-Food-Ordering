@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Arrays;
 
 import data.Answer;
 import data.Product;
@@ -58,55 +59,61 @@ public class Manager implements ResponseHandler {
             "res/store2.json",
             "res/store3.json",
             "res/store4.json",
-            "res/store5.json"
+            "res/store5.json",
+            "res/store6.json",
+            "res/store7.json",
+            "res/store8.json",
+            "res/store9.json",
+            "res/store10.json",
+            "res/store11.json"
         });
         Thread.sleep(1000); // Wait for stores to be added
 
         System.out.println("-------------------------------\n\n");
 
         applyTasks(new Task[] {
-                new Task(7, GlobalConfig.BUY, true,
-                    Map.of(
-                        "storeName", "Burger Palace",
-                        "productName", "Double Cheeseburger",
-                        "quantity", 2
-                    )
-                ),
-                new Task(7, GlobalConfig.BUY, true,
-                    Map.of(
-                        "storeName", "Burger Palace",
-                        "productName", "Double Cheeseburger",
-                        "quantity", 2
-                    )
-                ),
-                new Task(7, GlobalConfig.BUY, true,
-                    Map.of(
-                        "storeName", "Sushi Spot",
-                        "productName", "Salmon Nigiri",
-                        "quantity", 10
-                    )
-                ),
-                new Task(7, GlobalConfig.BUY, true,
-                    Map.of(
-                        "storeName", "Sushi Spot",
-                        "productName", "Salmon Nigiri",
-                        "quantity", 10
-                    )
-                ),
-                new Task(7, GlobalConfig.BUY, true,
-                    Map.of(
-                        "storeName", "Sus Spot",
-                        "productName", "Salmon Nigiri",
-                        "quantity", 10
-                    )
-                ),
-                new Task(7, GlobalConfig.BUY, true,
-                    Map.of(
-                        "storeName", "Sushi Spot",
-                        "productName", "Salmoigiri",
-                        "quantity", 10
-                    )
-                ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Burger Palace",
+                //         "productName", "Double Cheeseburger",
+                //         "quantity", 2
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Burger Palace",
+                //         "productName", "Double Cheeseburger",
+                //         "quantity", 2
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Sushi Spot",
+                //         "productName", "Salmon Nigiri",
+                //         "quantity", 10
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Sushi Spot",
+                //         "productName", "Salmon Nigiri",
+                //         "quantity", 10
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Sus Spot",
+                //         "productName", "Salmon Nigiri",
+                //         "quantity", 10
+                //     )
+                // ),
+                // new Task(7, GlobalConfig.BUY, true,
+                //     Map.of(
+                //         "storeName", "Sushi Spot",
+                //         "productName", "Salmoigiri",
+                //         "quantity", 10
+                //     )
+                // ),
         });
 
         Thread.sleep(1000); // Wait for purchases to be processed
@@ -134,6 +141,7 @@ public class Manager implements ResponseHandler {
 
                 // new Task(0, GlobalConfig.FILTER_STORES, false,
                 //     Map.of(
+                //         "name", "Burger Palace",
                 //         "categories", (Serializable) List.of(),
                 //         "stars", (Serializable) List.of(),
                 //         "price", (Serializable) List.of(),
@@ -251,20 +259,70 @@ public class Manager implements ResponseHandler {
      }
 
     public void waitForUserInput(Scanner scanner) {
-        System.out.print("\nEnter command (ADD_STORE, ADD_PRODUCT, REMOVE_PRODUCT, GET_SALES_PER_PRODUCT_CATEGORY, GET_SALES_PER_FOOD_CATEGORY, GET_SALES_PER_PRODUCT, CHANGE_STOCK, EXIT ): ");
+        System.out.print("\nEnter command (ADD_STORE, FILTER, ADD_PRODUCT, REMOVE_PRODUCT, GET_SALES_PER_PRODUCT_CATEGORY, GET_SALES_PER_STORE_CATEGORY, GET_SALES_PER_PRODUCT, CHANGE_STOCK, EXIT ): ");
         String command = scanner.nextLine().trim();
         switch (command.toUpperCase()) {
             case "ADD_STORE" -> handleInsertStore(scanner);
+            case "FILTER" -> handleFilterStores(scanner);
             case "ADD_PRODUCT" -> handleAddProduct(scanner);
             case "REMOVE_PRODUCT" -> handleRemoveProduct(scanner);
             case "GET_SALES_PER_PRODUCT" -> handleGetProductsSales();
-            case "GET_SALES_PER_PRODUCT_CATEGORY" -> handleGetSalesPerProductCategory(scanner);
-            case "GET_SALES_PER_FOOD_CATEGORY" -> handleGetSalesPerFoodCategory(scanner);
+            case "GET_STORE_SALES_PER_PRODUCT_CATEGORY" -> handleGetSalesPerProductCategory(scanner);
+            case "GET_STORE_SALES_PER_STORE_CATEGORY" -> handleGetSalesPerFoodCategory(scanner);
             case "CHANGE_STOCK" -> handleChangeStock(scanner);
             case "EXIT" -> System.exit(0);
             default -> System.out.println("Invalid command.");
         }
     }
+
+    private void handleFilterStores(Scanner scanner) {
+        System.out.print("Enter store name: ");
+        String name = scanner.nextLine().trim();
+
+        System.out.print("Enter categories (comma separated): ");
+        String categories = scanner.nextLine().trim();
+
+        System.out.print("Enter stars (comma separated): ");
+        String stars = scanner.nextLine().trim();
+
+        System.out.print("Enter price categories (comma separated): ");
+        String price = scanner.nextLine().trim();
+
+        List<String> categoryList = categories.isBlank()
+                ? List.of()
+                : Arrays.stream(categories.split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .toList();
+
+        List<Integer> starList = stars.isBlank()
+                ? List.of()
+                : Arrays.stream(stars.split(","))
+                        .map(String::trim)
+                        .map(Integer::parseInt)
+                        .toList();
+
+        List<Integer> priceList = price.isBlank()
+                ? List.of()
+                : Arrays.stream(price.split(","))
+                        .map(String::trim)
+                        .map(Integer::parseInt)
+                        .toList();
+
+        this.sendToMaster(
+            new Task(0, GlobalConfig.FILTER_STORES, false,
+                Map.of(
+                    "name", name,
+                    "categories", (Serializable) categoryList,
+                    "stars", (Serializable) starList,
+                    "price", (Serializable) priceList,
+                    "latitude", 0.0,
+                    "longitude", 0.0
+                )
+            )
+        );
+    }
+
 
     private void handleGetProductsSales() {
          this.sendToMaster(
@@ -300,6 +358,12 @@ public class Manager implements ResponseHandler {
        Scanner scanner = new Scanner(System.in);
         while (true) {
             waitForUserInput(scanner);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 
@@ -307,7 +371,7 @@ public class Manager implements ResponseHandler {
         Manager manager = new Manager();
         manager.test();
 
-        //manager.setupDummyUserInterface();
+        manager.setupDummyUserInterface();
 
         
 	}

@@ -4,24 +4,35 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URI;
+import javax.imageio.IIOException;
 
 public class ImageLoader {
-    public static byte[] imageUriToByteArray(String path, String formatName) throws Exception {
-        // Convert URI string to URI
-        String localpath = "res/" + path;
-        File file = new File(localpath);
-        
+    public static byte[] imageUriToByteArray(String path, String formatName)  {
+        try {
+            // Convert URI string to URI
+            String localpath = "res/" + path;
+            File file = new File(localpath);
+            
+            BufferedImage image = ImageIO.read(file);
 
-        // Read the image
-        BufferedImage image = ImageIO.read(file);
-        if (image == null) {
-            throw new IllegalArgumentException("Unsupported image type or file not found");
+            if (image == null) {
+                //throw new IllegalArgumentException("Unsupported image type or file not found");
+                return new byte[0];
+            }
+
+            // Convert to byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, formatName, baos);
+
+            return baos.toByteArray();
+        }  catch (IIOException e) {
+        // Image missing, unreadable, or invalid
+        // handle gracefully
+            return new byte[0];
+        } catch (Exception e) {
+            return new byte[0];
         }
-
-        // Convert to byte array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, formatName, baos);
-        return baos.toByteArray();
+        
     }
 
     public static String getImageExtension(String uriString) {

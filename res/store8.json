@@ -1,0 +1,23 @@
+{
+    "StoreName": "Vegan Delight",
+    "Latitude": 52.52,
+    "Longitude": 13.405,
+    "FoodCategory": "Vegan",
+    "Stars": 4.7,
+    "NoOfVotes": 164,
+    "StoreLogo": "vegan.png",
+    "Products": [
+        {
+            "ProductName": "Vegan Bowl",
+            "ProductType": "Food",
+            "Available Amount": 22,
+            "Price": 10.99
+        },
+        {
+            "ProductName": "Green Smoothie",
+            "ProductType": "Drink",
+            "Available Amount": 30,
+            "Price": 4.99
+        }
+    ]
+}

@@ -79,7 +79,7 @@ public class Reducer implements ResponseHandler, RequestHandler {
 
     @Override
     public Answer handleRequestFromClient(Task req) {
-        System.out.println("Reducer: "+GlobalConfig.getCommandName(req.type)+" request, with id:"+req.ID);
+        System.out.println("Reducer: "+GlobalConfig.getCommandName(req.type)+" request from worker, with id:"+req.ID);
         int id = req.ID;
         synchronized (operations) {
             if (!operations.containsKey(id)) {

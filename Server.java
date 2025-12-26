@@ -13,11 +13,10 @@ public class Server<M extends RequestHandler > {
 
 	void openServer(M manager, int port, String serverName) {
 		try {
-			providerSocket = new ServerSocket(port, 20);
+			providerSocket = new ServerSocket(port, 100);
 			System.out.println(serverName + " Waiting for clients on port: "+port);
 			while (true) {
 				connection = providerSocket.accept();
-
 				Thread t = new ActionsForClients<M>(connection, manager);
 				t.start();
 

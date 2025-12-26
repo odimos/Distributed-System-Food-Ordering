@@ -3,20 +3,17 @@ import java.util.List;
 public final class GlobalConfig {
 
     public static List<Pair<String, Integer> > workers = List.of(
-        new Pair<>("localhost", 4442),
-        new Pair<>("localhost", 4443),
-        new Pair<>("localhost", 4444)
+        new Pair<>("192.168.1.2", 4442), // windows machine
+        new Pair<>("192.168.1.2", 4443), // windows machine
+        new Pair<>("192.168.1.5", 4444) // linux machine
     );
 
 
-    public static final String MASTER_HOST_IP = "localhost";
+    public static final String MASTER_HOST_IP = "192.168.1.2";
     public static final int MASTER_PORT_FOR_CLIENTS = 4440;
     public static final int MASTER_PORT_FOR_REDUCER_AS_CLIENT = 5011;
 
-    //public static final String WORKERNODE_HOST_IP = "localhost";
-    //public static final int INITIAL_PORT_FOR_WORKERS = 4442;
-
-    public static final String REDUCER_HOST_IP = "localhost";
+    public static final String REDUCER_HOST_IP = "192.168.1.2";
     public static final int REDUCER_PORT_WORKER_AS_CLIENT = 5012;
 
     public static final int ADD_STORE = 1;
