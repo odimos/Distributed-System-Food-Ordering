@@ -259,7 +259,7 @@ public class Manager implements ResponseHandler {
      }
 
     public void waitForUserInput(Scanner scanner) {
-        System.out.print("\nEnter command (ADD_STORE, FILTER, ADD_PRODUCT, REMOVE_PRODUCT, GET_SALES_PER_PRODUCT_CATEGORY, GET_SALES_PER_STORE_CATEGORY, GET_SALES_PER_PRODUCT, CHANGE_STOCK, EXIT ): ");
+        System.out.print("\nEnter command (ADD_STORE, FILTER, ADD_PRODUCT, REMOVE_PRODUCT, GET_STORE_SALES_PER_PRODUCT_CATEGORY, GET_STORE_SALES_PER_FOOD_CATEGORY, GET_SALES_PER_PRODUCT, ADD_STOCK, EXIT ): ");
         String command = scanner.nextLine().trim();
         switch (command.toUpperCase()) {
             case "ADD_STORE" -> handleInsertStore(scanner);
@@ -268,8 +268,8 @@ public class Manager implements ResponseHandler {
             case "REMOVE_PRODUCT" -> handleRemoveProduct(scanner);
             case "GET_SALES_PER_PRODUCT" -> handleGetProductsSales();
             case "GET_STORE_SALES_PER_PRODUCT_CATEGORY" -> handleGetSalesPerProductCategory(scanner);
-            case "GET_STORE_SALES_PER_STORE_CATEGORY" -> handleGetSalesPerFoodCategory(scanner);
-            case "CHANGE_STOCK" -> handleChangeStock(scanner);
+            case "GET_STORE_SALES_PER_FOOD_CATEGORY" -> handleGetSalesPerFoodCategory(scanner);
+            case "ADD_STOCK" -> handleChangeStock(scanner);
             case "EXIT" -> System.exit(0);
             default -> System.out.println("Invalid command.");
         }

@@ -3,7 +3,7 @@ cd /d %~dp0
 
 
 :: Compile all Java files
-start "Compile" cmd /k "javac *.java"
+start "Compile" cmd /k "javac *.java data/*.java"
 
 :: Wait 1 second to allow compilation to complete
 :: timeout /t 2 /nobreak >nul

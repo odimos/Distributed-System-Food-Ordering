@@ -1,7 +1,7 @@
 # Distributed System Food Ordering App.
 *Distributed Systems, Athens University Of Business 2025*
 
-[Demo]("")
+[Demo Presentation](https://www.youtube.com/watch?v=sbULFQ-iN-8)
 
 ![schema](res/schema.jpg)
 
@@ -79,7 +79,7 @@ The actual request/response handling logic is implemented in the owning node cla
 
 The ordering app is written with  Kotlin coroutines and Java threads for asynchronous execution.
 The UI is implemented with Jetpack Compose. 
-[Link to repo]("")
+[Android Application Repo](https://github.com/odimos/Distributed-System-Food-Ordering)
 
 ## Manager Capabilities
 - Add and remove stores
@@ -123,7 +123,7 @@ The UI is implemented with Jetpack Compose.
      java Manager
      ```
 5. **Run the application**
-    Use the App[link] to browse available stores and place orders.
+    Use the [App](https://github.com/odimos/Distributed-System-Food-Ordering) to browse available stores and place orders.
 
 ## Common issues 
 
