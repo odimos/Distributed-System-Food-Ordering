@@ -7,6 +7,8 @@
 
 ![schema](res/schema.jpg)
 
+<br>
+
 The backend is implemented in Java and follows a distributed Master–Worker architecture with a custom MapReduce process.
 
 ### Architecture
