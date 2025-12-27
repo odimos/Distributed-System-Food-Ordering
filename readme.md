@@ -3,8 +3,9 @@
 
 ### [▶ Video Presentation](https://www.youtube.com/watch?v=sbULFQ-iN-8)
 
-![schema](res/schema.jpg)
+<br>
 
+![schema](res/schema.jpg)
 
 The backend is implemented in Java and follows a distributed Master–Worker architecture with a custom MapReduce process.
 
