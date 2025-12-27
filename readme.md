@@ -1,7 +1,7 @@
 # Distributed System Food Ordering App.
 *Distributed Systems, Athens University Of Business 2025*
 
-[Demo Presentation](https://www.youtube.com/watch?v=sbULFQ-iN-8)
+[Video Presentation](https://www.youtube.com/watch?v=sbULFQ-iN-8)
 
 ![schema](res/schema.jpg)
 
