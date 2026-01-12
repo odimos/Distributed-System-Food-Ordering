@@ -9,6 +9,10 @@
 
 <br>
 
+#### (For the Android Application Repository [click here](https://github.com/odimos/Distributed-System-Food-Ordering))
+
+<br>
+
 The backend is implemented in Java and follows a distributed Master–Worker architecture with a custom MapReduce process.
 
 ### Architecture
