@@ -9,7 +9,7 @@
 
 <br>
 
-#### (For the Android Application Repository [click here](https://github.com/odimos/Distributed-System-Food-Ordering))
+#### (For the Android Application Repository [click here](https://github.com/odimos/FoodApp))
 
 <br>
 
@@ -86,7 +86,7 @@ The actual request/response handling logic is implemented in the owning node cla
 
 The ordering app is written with  Kotlin coroutines and Java threads for asynchronous execution.
 The UI is implemented with Jetpack Compose. 
-[Android Application Repo](https://github.com/odimos/Distributed-System-Food-Ordering)
+[Android Application Repo](https://github.com/odimos/FoodApp)
 
 ## Manager Capabilities
 - Add and remove stores
