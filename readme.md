@@ -1,5 +1,5 @@
-# Distributed System for Food Ordering App.
-*Distributed Systems, Athens University Of Business 2025*
+# Distributed Food Ordering System (Java).
+*Athens University Of Business 2025*
 
 ### [▶ Video Presentation](https://www.youtube.com/watch?v=sbULFQ-iN-8)
 
@@ -7,11 +7,16 @@
 
 ![schema](res/schema.jpg)
 
-<br>
-
 #### (For the Android Application Repository [click here](https://github.com/odimos/FoodApp))
-
 <br>
+
+Distributed Java backend system managing stores and menus, providing sales statistics, while supporting user-facing browsing, ordering, and ratings via an Android app, designed to support multiple concurrent clients.
+
+The project focuses on:
+- Distributed system design
+- Multithreaded request handling
+- Thread coordination and data consistency
+- Client–server communication over TCP sockets
 
 The backend is implemented in Java and follows a distributed Master–Worker architecture with a custom MapReduce process.
 
