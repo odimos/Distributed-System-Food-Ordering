@@ -6,11 +6,9 @@
 <br>
 
 ![schema](res/schema.jpg)
+##### (For the Android Application Repository [click here](https://github.com/odimos/FoodApp))
 
-#### (For the Android Application Repository [click here](https://github.com/odimos/FoodApp))
-<br>
-
-### Distributed Java backend system managing stores and menus, providing sales statistics, while supporting user-facing browsing, ordering, and ratings via an Android app, designed to support multiple concurrent clients.
+#### Distributed Java backend system managing stores and menus, providing sales statistics, while supporting user-facing browsing, ordering, and ratings via an Android app, designed to support multiple concurrent clients.
 
 The project focuses on:
 - Distributed system design
